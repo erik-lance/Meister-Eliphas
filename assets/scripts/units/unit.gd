@@ -8,6 +8,7 @@ onready var sprite = $Sprite
 onready var anim_player = $AnimationPlayer
 onready var hitbox = $KinematicBody2D/Hitbox
 onready var hurtbox = $Area2D/Hurtbox
+onready var hp_bar = $HealthBar
 
 var speed = 0.5
 var dir
@@ -21,6 +22,7 @@ var dm
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	use_data()
+	
 	unit_owner = unit_data.unit_owner
 	if (unit_owner == Owner.PLAYER): dir = 1
 	else: dir = -1
@@ -33,6 +35,8 @@ func _process(delta):
 			anim_player.play("walk")
 		elif(cur_state == Status.ATTACK):
 			anim_player.play("attack")
+	else:
+		anim_player.play("default")
 
 func set_owner_player(n=true):
 	if (n):
@@ -46,6 +50,17 @@ func use_data():
 	hp = unit_data.hp
 	dm = unit_data.dm
 	speed = unit_data.speed
+	
+	hp_bar.max_value = hp
+	hp_bar.value = hp
+
+func update_hp_bar():
+	
+	hp_bar.value = hp
+	if (hp > hp_bar.max_value*.75): hp_bar.theme = load("res://assets/themes/health_bar_good.tres")
+	elif (hp > hp_bar.max_value*.50): hp_bar.theme = load("res://assets/themes/health_bar_medium.tres")
+	elif (hp > hp_bar.max_value*.25): hp_bar.theme = load("res://assets/themes/health_bar_bad.tres")
+	else: hp_bar.theme = load("res://assets/themes/health_bar_dead.tres")
 
 func switch_target():
 	cur_enemy = unit_data.get_target()
@@ -60,7 +75,10 @@ func inflict_damage():
 	if(defeated): unit_data.defeated_target()
 
 func take_damage(d):
+	
 	hp -= d;
+	print(self.name+" "+str(hp))
+	update_hp_bar()
 	if (hp <= 0):
 		cur_state = Status.DEAD;
 		if (unit_owner == Owner.PLAYER):
