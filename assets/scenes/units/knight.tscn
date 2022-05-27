@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://assets/sprites/units/knight/knight_walk.png" type="Texture" id=1]
 [ext_resource path="res://assets/sprites/units/knight/knight.png" type="Texture" id=2]
 [ext_resource path="res://assets/sprites/units/knight/knight_attack.png" type="Texture" id=3]
 [ext_resource path="res://assets/scripts/units/knight.gd" type="Script" id=4]
 [ext_resource path="res://assets/scripts/units/unit.gd" type="Script" id=5]
+[ext_resource path="res://assets/scenes/units/HealthBar.tscn" type="PackedScene" id=6]
 
 [sub_resource type="Animation" id=15]
 resource_name = "attack"
@@ -43,6 +44,74 @@ tracks/2/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 2, 3, 4 ]
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.6 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "inflict_damage"
+} ]
+}
+
+[sub_resource type="Animation" id=16]
+resource_name = "dead"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 2 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 1 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "remove_unit"
+} ]
 }
 
 [sub_resource type="Animation" id=13]
@@ -126,12 +195,11 @@ script = ExtResource( 5 )
 script = ExtResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="."]
-texture = ExtResource( 3 )
-hframes = 5
-frame = 4
+texture = ExtResource( 2 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/attack = SubResource( 15 )
+anims/dead = SubResource( 16 )
 anims/default = SubResource( 13 )
 anims/walk = SubResource( 14 )
 
@@ -151,5 +219,8 @@ collision_mask = 2
 modulate = Color( 0.866667, 0.968627, 0.164706, 1 )
 position = Vector2( -19.5, 10.5 )
 shape = SubResource( 12 )
+
+[node name="HealthBar" parent="." instance=ExtResource( 6 )]
+visible = false
 
 [connection signal="body_entered" from="Area2D" to="UnitData" method="_on_Area2D_body_entered"]
