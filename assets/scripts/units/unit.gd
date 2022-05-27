@@ -10,7 +10,7 @@ onready var hitbox = $KinematicBody2D/Hitbox
 onready var hurtbox = $Area2D/Hurtbox
 
 var speed = 0.5
-var dir = 1
+var dir
 var unit_owner
 var cur_state = Status.WALK
 var cur_enemy
@@ -21,6 +21,9 @@ var dm
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	use_data()
+	unit_owner = unit_data.unit_owner
+	if (unit_owner == Owner.PLAYER): dir = 1
+	else: dir = -1
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -60,3 +63,9 @@ func take_damage(d):
 	hp -= d;
 	if (hp <= 0):
 		cur_state = Status.DEAD;
+		if (unit_owner == Owner.PLAYER):
+			$KinematicBody2D.set_collision_layer_bit(1,false)
+		else:
+			$KinematicBody2D.set_collision_layer_bit(2,false)
+		return true
+	return false
