@@ -18,7 +18,6 @@ func _ready():
 var target_list = []
 
 func get_target():
-	print("get him!")
 	if (target_list.size() != 0): return target_list[0]
 	else: return null
 
@@ -28,6 +27,5 @@ func defeated_target():
 
 # Adds to target list
 func _on_Area2D_body_entered(body):
-	print("hi")
 	target_list.append(body)
 	if (target_list.size()==1): get_parent().switch_target()
