@@ -36,7 +36,7 @@ func _process(delta):
 		elif(cur_state == Status.ATTACK):
 			anim_player.play("attack")
 	else:
-		anim_player.play("default")
+		pass
 
 func set_owner_player(n=true):
 	if (n):
@@ -75,7 +75,7 @@ func inflict_damage():
 	if(defeated): unit_data.defeated_target()
 
 func take_damage(d):
-	
+	if (hp_bar.visible == false): hp_bar.visible = true
 	hp -= d;
 	print(self.name+" "+str(hp))
 	update_hp_bar()
@@ -85,5 +85,9 @@ func take_damage(d):
 			$KinematicBody2D.set_collision_layer_bit(1,false)
 		else:
 			$KinematicBody2D.set_collision_layer_bit(2,false)
+		anim_player.play("dead")
 		return true
 	return false
+
+func remove_unit():
+	self.queue_free()
