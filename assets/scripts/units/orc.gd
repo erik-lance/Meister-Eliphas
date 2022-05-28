@@ -4,9 +4,8 @@ enum Owner {PLAYER, AI}
 enum Status {SPECIAL, WALK, ATTACK, DEAD}
 
 var unit_owner
-var speed = 0.5
+var speed = 0.2
 var cur_state = Status.WALK
-var cur_enemy;
 
 var hp = 70;
 var dm = 35;
@@ -28,8 +27,9 @@ func defeated_target():
 # Adds to target list
 func _on_Area2D_body_entered(body):
 	target_list.append(body)
+	
 	if (target_list.size()==1): get_parent().switch_target()
-	elif (cur_enemy != null && cur_enemy.name == "EnemyBase"):
+	elif (get_parent().cur_enemy != null && get_parent().cur_enemy.name == "Static"):
 		# If a new enemy appears while attacking castle, switch targets,
 		# move castle as last priority in target list.
 		target_list.append(target_list.pop_front())
