@@ -49,6 +49,10 @@ func update_health_enemy(h, n):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	if (Input.is_action_pressed("speed_up_camera")):
+		speed = 20
+	else: speed = 10
+	
 	if (Input.is_action_pressed("camera_left") && main_camera.position.x > -32): main_camera.transform.origin.x -= 1 * speed;
 	elif (Input.is_action_pressed("camera_right") && main_camera.position.x < 1276): main_camera.transform.origin.x += 1 * speed;
 	pass
