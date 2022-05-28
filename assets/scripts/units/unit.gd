@@ -1,7 +1,7 @@
 extends Node2D
 
 enum Owner {PLAYER, AI}
-enum Status {WALK, ATTACK, DEAD}
+enum Status {SPECIAL, WALK, ATTACK, DEAD}
 
 onready var unit_data = $UnitData
 onready var sprite = $Sprite
@@ -54,8 +54,12 @@ func use_data():
 	hp_bar.max_value = hp
 	hp_bar.value = hp
 
+func finish_special():
+	if (unit_data.get_target() == null):
+		cur_state=Status.WALK
+	else: switch_target()
+
 func update_hp_bar():
-	
 	hp_bar.value = hp
 	if (hp > hp_bar.max_value*.75): hp_bar.theme = load("res://assets/themes/health_bar_good.tres")
 	elif (hp > hp_bar.max_value*.50): hp_bar.theme = load("res://assets/themes/health_bar_medium.tres")
@@ -81,6 +85,12 @@ func take_damage(d):
 	update_hp_bar()
 	if (hp <= 0):
 		cur_state = Status.DEAD;
+		
+		# DISABLES ALL CONNECTIONS
+		var conns = unit_data.get_incoming_connections();
+		for cur_conn in conns:
+			cur_conn.source.disconnect(cur_conn.signal_name, unit_data, cur_conn.method_name)
+		
 		if (unit_owner == Owner.PLAYER):
 			$KinematicBody2D.set_collision_layer_bit(1,false)
 		else:

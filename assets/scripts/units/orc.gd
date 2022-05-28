@@ -1,7 +1,7 @@
 extends Node2D
 
 enum Owner {PLAYER, AI}
-enum Status {WALK, ATTACK, DEAD}
+enum Status {SPECIAL, WALK, ATTACK, DEAD}
 
 var unit_owner
 var speed = 0.5
@@ -29,3 +29,8 @@ func defeated_target():
 func _on_Area2D_body_entered(body):
 	target_list.append(body)
 	if (target_list.size()==1): get_parent().switch_target()
+	elif (cur_enemy != null && cur_enemy.name == "EnemyBase"):
+		# If a new enemy appears while attacking castle, switch targets,
+		# move castle as last priority in target list.
+		target_list.append(target_list.pop_front())
+		get_parent().switch_target()
