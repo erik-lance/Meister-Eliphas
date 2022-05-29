@@ -10,6 +10,11 @@ onready var hitbox = $KinematicBody2D/Hitbox
 onready var hurtbox = $Area2D/Hurtbox
 onready var hp_bar = $HealthBar
 
+onready var audio_player = $AudioStreamPlayer2D
+var sound_warp = preload("res://assets/audio/sfx/warp.wav")
+var sound_hit = preload("res://assets/audio/sfx/light_hit.wav")
+var sound_dead = preload("res://assets/audio/sfx/hit_hard.wav")
+
 var speed = 0.5
 var dir
 var unit_owner
@@ -54,6 +59,10 @@ func use_data():
 	hp_bar.max_value = hp
 	hp_bar.value = hp
 
+func begin_special():
+	audio_player.stream = sound_warp
+	audio_player.play()
+
 func finish_special():
 	if (unit_data.get_target() == null):
 		cur_state=Status.WALK
@@ -79,11 +88,14 @@ func inflict_damage():
 	if(defeated): unit_data.defeated_target()
 
 func take_damage(d):
+	
 	if (hp_bar.visible == false): hp_bar.visible = true
 	hp -= d;
 	print(self.name+" "+str(hp))
 	update_hp_bar()
 	if (hp <= 0):
+		audio_player.stream = sound_dead
+		audio_player.play()
 		cur_state = Status.DEAD;
 		
 		# DISABLES ALL CONNECTIONS
@@ -97,7 +109,10 @@ func take_damage(d):
 			$KinematicBody2D.set_collision_layer_bit(2,false)
 		anim_player.play("dead")
 		return true
-	return false
+	else:
+		audio_player.stream = sound_hit
+		audio_player.play()
+		return false
 
 func remove_unit():
 	self.queue_free()
