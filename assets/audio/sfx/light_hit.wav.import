@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/light_hit.wav-8ba3b4956365e2875457528f7088e8e9.sample"
+
+[deps]
+
+source_file="res://assets/audio/sfx/light_hit.wav"
+dest_files=[ "res://.import/light_hit.wav-8ba3b4956365e2875457528f7088e8e9.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
