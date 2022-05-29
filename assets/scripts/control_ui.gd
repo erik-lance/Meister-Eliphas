@@ -7,12 +7,16 @@ onready var btn_container = $Control/HBoxContainer
 onready var select_label = $Control/SelectNote
 onready var dump = $Control/Dump
 
+onready var start_message = $Control/Start
+
 var cur_mode = Mode.IDLE
 var cur_select = null
 
+var universal_timer = 10
 var coins = 500
-var slot_prices = [150, 80, 60]
-var slot_avail = [true, true, true]
+var coin_increment = 70
+var slot_prices = [150, 40]
+var slot_avail = [true, true]
 
 var select_sprite = null
 
@@ -29,6 +33,12 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	
+	if (Input.is_action_just_released("open_1")):
+		slot_n_select(0)
+	elif ( Input.is_action_just_released("open_2")):
+		slot_n_select(1)
+	
 	if (Input.is_action_pressed("deselect") && cur_mode != Mode.IDLE):
 		reset_buttons()
 	
@@ -118,36 +128,30 @@ func reset_buttons():
 	select_label.visible = false
 	$Control/HBoxContainer/Slot_1.pressed = false
 	$Control/HBoxContainer/Slot_2.pressed = false
-	$Control/HBoxContainer/Slot_3.pressed = false
 	for i in dump.get_children():
 		i.queue_free()
 
-func _on_Slot_1_pressed():
-	if (cur_select != 0):
+func slot_n_select(n):
+	if (cur_select != n):
 		cur_mode = Mode.SELECTED_UNIT
-		open_slot_1()
-		cur_select = 0
-		select_label.visible = true
-	else: reset_buttons()
-		
-
-func _on_Slot_2_pressed():
-	if (cur_select != 1):
-		cur_mode = Mode.SELECTED_UNIT
-		open_slot_2()
-		cur_select = 1
+		match(n):
+			0: open_slot_1()
+			1: open_slot_2()
+		cur_select = n
 		select_label.visible = true
 	else: reset_buttons()
 
-func _on_Slot_3_pressed():
-	if (cur_select != 2):
-		cur_mode = Mode.SELECTED_UNIT
-		cur_select = 2
-		select_label.visible = true
-	else: reset_buttons()
-	
+func ease_game():
+	universal_timer = 7
+	coin_increment = 100
+	$Control/HBoxContainer/Slot_1/slot1_timer.wait_time = 7
+	$Control/HBoxContainer/Slot_2/slot2_timer.wait_time = 7
+
+func _on_Slot_1_pressed(): slot_n_select(0)
+func _on_Slot_2_pressed(): slot_n_select(1)
+
 func _on_Timer_timeout():
-	coins += 70
+	coins += coin_increment
 	$Control/Player/CoinPanel/Label.text = "@ "+str(coins)
 
 func _on_slot1_timer_timeout():
