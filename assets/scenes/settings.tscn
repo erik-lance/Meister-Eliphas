@@ -1,0 +1,123 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://assets/sprites/menu.png" type="Texture" id=1]
+[ext_resource path="res://assets/fonts/alagard.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://assets/themes/font_style.tres" type="Theme" id=3]
+[ext_resource path="res://assets/scripts/settings.gd" type="Script" id=4]
+[ext_resource path="res://assets/audio/menu.wav" type="AudioStream" id=5]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 2 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id=3]
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id=4]
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id=5]
+draw_center = false
+
+[node name="Settings" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+modulate = Color( 1, 1, 1, 0.478431 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 1 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -109.5
+margin_top = -56.5
+margin_right = 109.5
+margin_bottom = 56.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="CanvasLayer/VBoxContainer"]
+margin_right = 219.0
+margin_bottom = 15.0
+theme = ExtResource( 3 )
+text = "Master Volume"
+align = 1
+
+[node name="master_slider" type="HSlider" parent="CanvasLayer/VBoxContainer"]
+margin_top = 19.0
+margin_right = 219.0
+margin_bottom = 35.0
+min_value = -72.0
+max_value = 6.0
+
+[node name="Label2" type="Label" parent="CanvasLayer/VBoxContainer"]
+margin_top = 39.0
+margin_right = 219.0
+margin_bottom = 54.0
+theme = ExtResource( 3 )
+text = "Music Volume"
+align = 1
+
+[node name="music_slider" type="HSlider" parent="CanvasLayer/VBoxContainer"]
+margin_top = 58.0
+margin_right = 219.0
+margin_bottom = 74.0
+min_value = -72.0
+max_value = 6.0
+
+[node name="Label3" type="Label" parent="CanvasLayer/VBoxContainer"]
+margin_top = 78.0
+margin_right = 219.0
+margin_bottom = 93.0
+theme = ExtResource( 3 )
+text = "SFX Volume"
+align = 1
+
+[node name="sfx_slider" type="HSlider" parent="CanvasLayer/VBoxContainer"]
+margin_top = 97.0
+margin_right = 219.0
+margin_bottom = 113.0
+min_value = -72.0
+max_value = 6.0
+
+[node name="Button" type="Button" parent="CanvasLayer"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -123.0
+margin_top = -37.0
+margin_right = -23.0
+margin_bottom = -16.0
+custom_fonts/font = SubResource( 1 )
+custom_styles/hover = SubResource( 2 )
+custom_styles/pressed = SubResource( 3 )
+custom_styles/focus = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
+text = "Save & Exit"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+autoplay = true
+bus = "Music"
+
+[connection signal="value_changed" from="CanvasLayer/VBoxContainer/master_slider" to="." method="_on_master_slider_value_changed"]
+[connection signal="value_changed" from="CanvasLayer/VBoxContainer/music_slider" to="." method="_on_music_slider_value_changed"]
+[connection signal="value_changed" from="CanvasLayer/VBoxContainer/sfx_slider" to="." method="_on_sfx_slider_value_changed"]
+[connection signal="button_up" from="CanvasLayer/Button" to="." method="_on_Button_button_up"]
