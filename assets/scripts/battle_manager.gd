@@ -21,6 +21,9 @@ onready var enemy_base = $Map/EnemyBase
 
 onready var game_ui = $Control
 
+var winner = null
+var is_game_done = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	player_base.game_manager = self
@@ -29,6 +32,8 @@ func _ready():
 	enemy_base.base_owner = 1
 	
 	game_ui.game_manager = self
+	
+	enemy_base.gal_ai = $BaseMaps/GalahadAI
 	
 
 func update_health_player(h, n):
@@ -53,10 +58,26 @@ func _process(delta):
 		speed = 20
 	else: speed = 10
 	
-	if (Input.is_action_pressed("camera_left") && main_camera.position.x > -32): main_camera.transform.origin.x -= 1 * speed;
-	elif (Input.is_action_pressed("camera_right") && main_camera.position.x < 1276): main_camera.transform.origin.x += 1 * speed;
+	if (Input.is_action_pressed("camera_left") && main_camera.position.x > -32): 
+		main_camera.transform.origin.x -= 1 * speed;
+		if (game_ui.start_message.visible): game_ui.start_message.visible = false
+	elif (Input.is_action_pressed("camera_right") && main_camera.position.x < 1276):
+		main_camera.transform.origin.x += 1 * speed;
+		if (game_ui.start_message.visible): game_ui.start_message.visible = false
 	pass
 
 
 func _on_Eliphas_animation_finished():
 	eliphas.play("default")
+
+# True is Enemy Base, False is Player base
+func base_dead(b):
+	if (winner == null):
+		if (b == true): winner = true
+		else : winner = false
+		is_game_done = true
+		$Finish.start()
+
+func _on_Finish_timeout():
+	if (winner): get_tree().change_scene("res://assets/scenes/finish_win.tscn")
+	else: get_tree().change_scene("res://assets/scenes/finish_lose.tscn")
