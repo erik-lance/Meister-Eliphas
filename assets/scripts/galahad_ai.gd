@@ -2,6 +2,9 @@ extends Node2D
 
 onready var game_manager = get_parent().get_parent()
 
+
+var forced_y = null
+
 var start_x = 1295
 var end_x = 1320
 
@@ -18,6 +21,12 @@ func _ready():
 #func _process(delta):
 #	pass
 
+func harden():
+	$Timer.wait_time = 13
+	$ChanceTimer.wait_time = 25
+
+func force_y(y):
+	forced_y = y
 
 func _on_Timer_timeout():
 	var posx = randi() % (end_x - start_x) + 1
@@ -27,8 +36,12 @@ func _on_Timer_timeout():
 	
 	game_manager.entity_node.add_child(knight_inst)
 	
+	
 	knight_inst.position.x = posx + start_x
-	knight_inst.position.y = posy + start_y
+	if (forced_y != null):
+		knight_inst.position.y = forced_y
+	else: 
+		knight_inst.position.y = posy + start_y
 
 func _on_ChanceTimer_timeout():
 	var posx = randi() % (end_x - start_x) + 1
@@ -39,4 +52,7 @@ func _on_ChanceTimer_timeout():
 	game_manager.entity_node.add_child(knight_inst)
 	
 	knight_inst.position.x = posx + start_x
-	knight_inst.position.y = posy + start_y
+	if (forced_y != null):
+		knight_inst.position.y = forced_y
+	else: 
+		knight_inst.position.y = posy + start_y
