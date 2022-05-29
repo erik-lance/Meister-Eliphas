@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://assets/scripts/control_ui.gd" type="Script" id=1]
 [ext_resource path="res://assets/themes/health_bar_good.tres" type="Theme" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://assets/themes/button_theme.tres" type="Theme" id=7]
 [ext_resource path="res://assets/sprites/units/orc/orc.png" type="Texture" id=8]
 [ext_resource path="res://assets/fonts/upheavtt.ttf" type="DynamicFontData" id=9]
+[ext_resource path="res://assets/themes/font_style.tres" type="Theme" id=10]
 
 [sub_resource type="DynamicFont" id=6]
 size = 20
@@ -52,26 +53,27 @@ script = ExtResource( 1 )
 [node name="HBoxContainer" type="HBoxContainer" parent="Control"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_left = 13.0
-margin_top = -53.0
-margin_right = 153.0
-margin_bottom = -13.0
+margin_left = 21.0
+margin_top = -61.0
+margin_right = 108.0
+margin_bottom = -21.0
 custom_constants/separation = 10
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Slot_1" type="CheckButton" parent="Control/HBoxContainer"]
-margin_right = 40.0
+margin_right = 38.0
 margin_bottom = 40.0
-focus_neighbour_left = NodePath("../Slot_3")
 focus_neighbour_right = NodePath("../Slot_2")
 focus_next = NodePath("../Slot_2")
-focus_previous = NodePath("../Slot_3")
 focus_mode = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource( 7 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="TextureRect" type="TextureRect" parent="Control/HBoxContainer/Slot_1"]
 anchor_left = 0.5
@@ -84,6 +86,7 @@ margin_right = 32.0
 margin_bottom = 32.0
 texture = ExtResource( 8 )
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -100,6 +103,7 @@ custom_fonts/font = SubResource( 6 )
 text = "150"
 align = 1
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -108,17 +112,18 @@ wait_time = 10.0
 one_shot = true
 
 [node name="Slot_2" type="CheckButton" parent="Control/HBoxContainer"]
-margin_left = 50.0
-margin_right = 90.0
+margin_left = 48.0
+margin_right = 87.0
 margin_bottom = 40.0
 focus_neighbour_left = NodePath("../Slot_1")
-focus_neighbour_right = NodePath("../Slot_3")
-focus_next = NodePath("../Slot_3")
 focus_previous = NodePath("../Slot_1")
 focus_mode = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource( 7 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="TextureRect" type="TextureRect" parent="Control/HBoxContainer/Slot_2"]
 anchor_right = 1.0
@@ -129,6 +134,7 @@ rect_scale = Vector2( 0.5, 0.5 )
 rect_pivot_offset = Vector2( 8, 8 )
 texture = ExtResource( 8 )
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -142,28 +148,16 @@ margin_top = -3.0
 margin_right = 20.0
 margin_bottom = 15.0
 custom_fonts/font = SubResource( 6 )
-text = "80"
+text = "40"
 align = 1
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
 [node name="slot2_timer" type="Timer" parent="Control/HBoxContainer/Slot_2"]
 wait_time = 10.0
 one_shot = true
-
-[node name="Slot_3" type="CheckButton" parent="Control/HBoxContainer"]
-margin_left = 100.0
-margin_right = 140.0
-margin_bottom = 40.0
-focus_neighbour_left = NodePath("../Slot_2")
-focus_neighbour_right = NodePath("../Slot_1")
-focus_next = NodePath("../Slot_1")
-focus_previous = NodePath("../Slot_2")
-focus_mode = 0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme = ExtResource( 7 )
 
 [node name="Player" type="Control" parent="Control"]
 margin_right = 174.0
@@ -200,8 +194,8 @@ margin_top = 22.0
 margin_right = 168.0
 margin_bottom = 36.0
 theme = ExtResource( 2 )
-max_value = 1000.0
-value = 1000.0
+max_value = 3000.0
+value = 3000.0
 percent_visible = false
 __meta__ = {
 "_edit_use_anchors_": false
@@ -262,8 +256,9 @@ __meta__ = {
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -168.0
+margin_top = 1.0
 margin_right = -65.0
-margin_bottom = 19.0
+margin_bottom = 20.0
 custom_styles/panel = SubResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -285,13 +280,13 @@ __meta__ = {
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -65.0
-margin_top = 21.0
+margin_top = 22.0
 margin_right = 38.0
-margin_bottom = 35.0
+margin_bottom = 36.0
 rect_scale = Vector2( -1, 1 )
 theme = ExtResource( 2 )
-max_value = 1000.0
-value = 1000.0
+max_value = 3000.0
+value = 3000.0
 percent_visible = false
 __meta__ = {
 "_edit_use_anchors_": false
@@ -361,6 +356,27 @@ __meta__ = {
 
 [node name="Dump" type="Node" parent="Control"]
 
+[node name="Start" type="Label" parent="Control"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -150.5
+margin_top = -52.5
+margin_right = 150.5
+margin_bottom = 52.5
+theme = ExtResource( 10 )
+text = "This message will disappear if you move.
+
+Press A or D to move the camera
+Hold shift to move faster
+
+1 and 2 correspond to your unit slots"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Timer" type="Timer" parent="."]
 wait_time = 10.0
 autostart = true
@@ -369,5 +385,4 @@ autostart = true
 [connection signal="timeout" from="Control/HBoxContainer/Slot_1/slot1_timer" to="." method="_on_slot1_timer_timeout"]
 [connection signal="pressed" from="Control/HBoxContainer/Slot_2" to="." method="_on_Slot_2_pressed"]
 [connection signal="timeout" from="Control/HBoxContainer/Slot_2/slot2_timer" to="." method="_on_slot2_timer_timeout"]
-[connection signal="pressed" from="Control/HBoxContainer/Slot_3" to="." method="_on_Slot_3_pressed"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
