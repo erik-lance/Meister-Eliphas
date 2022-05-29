@@ -1,0 +1,83 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://assets/sprites/menu.png" type="Texture" id=1]
+[ext_resource path="res://assets/fonts/alagard.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://assets/themes/font_style.tres" type="Theme" id=3]
+[ext_resource path="res://assets/scripts/finish.gd" type="Script" id=4]
+[ext_resource path="res://assets/audio/menu.wav" type="AudioStream" id=5]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 2 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id=3]
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id=4]
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id=5]
+draw_center = false
+
+[node name="Finish" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+modulate = Color( 1, 1, 1, 0.478431 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 1 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="CanvasLayer"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -123.0
+margin_top = -37.0
+margin_right = -23.0
+margin_bottom = -16.0
+custom_fonts/font = SubResource( 1 )
+custom_styles/hover = SubResource( 2 )
+custom_styles/pressed = SubResource( 3 )
+custom_styles/focus = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
+text = "Return"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -125.0
+margin_top = -61.5
+margin_right = 125.0
+margin_bottom = 61.5
+theme = ExtResource( 3 )
+text = "Congratulations, you've defeated Lt. Galahad! (as expected of the master of the spatial arts)
+
+Thank you for playing!:)"
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+autoplay = true
+bus = "Music"
+
+[connection signal="button_up" from="CanvasLayer/Button" to="." method="_on_Button_button_up"]
