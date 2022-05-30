@@ -4,7 +4,7 @@ enum Owner {PLAYER, AI}
 enum Status {WALK, ATTACK, DEAD}
 
 var unit_owner
-var speed = 0.2
+var speed = 25
 var cur_state = Status.WALK
 var cur_enemy;
 

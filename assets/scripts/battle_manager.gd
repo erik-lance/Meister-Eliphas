@@ -14,7 +14,7 @@ onready var eliphas = $BaseMaps/Eliphas
 onready var player_hp = $Control/Control/Player/ProgressBar
 onready var enemy_hp = $Control/Control/Enemy/ProgressBar
 
-var speed = 10
+var speed = 500
 
 onready var player_base = $Map/PlayerBase
 onready var enemy_base = $Map/EnemyBase
@@ -55,20 +55,25 @@ func update_health_enemy(h, n):
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if (Input.is_action_pressed("speed_up_camera")):
-		speed = 20
-	else: speed = 10
+		speed = 1500
+	else: speed = 500
 	
 	if (Input.is_action_pressed("camera_left") && main_camera.position.x > -32): 
-		main_camera.transform.origin.x -= 1 * speed;
+		main_camera.transform.origin.x -= 1 * speed * delta;
 		if (game_ui.start_message.visible): game_ui.start_message.visible = false
 	elif (Input.is_action_pressed("camera_right") && main_camera.position.x < 1276):
-		main_camera.transform.origin.x += 1 * speed;
+		main_camera.transform.origin.x += 1 * speed * delta;
 		if (game_ui.start_message.visible): game_ui.start_message.visible = false
-	pass
+	elif (Input.is_action_just_released("camera_home")):
+		main_camera.transform.origin.x = 178
+	elif (Input.is_action_just_released("camera_enemy")):
+		main_camera.transform.origin.x = 1124
 
 
 func _on_Eliphas_animation_finished():
 	eliphas.play("default")
+	if (player_base.cur_state == 1):
+		player_base.inflict_damage()
 
 # True is Enemy Base, False is Player base
 func base_dead(b):

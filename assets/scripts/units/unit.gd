@@ -36,7 +36,7 @@ func _ready():
 func _process(delta):
 	if (cur_state != Status.DEAD):
 		if (cur_state == Status.WALK):
-			position.x += dir*speed;
+			position.x += dir*speed*delta;
 			anim_player.play("walk")
 		elif(cur_state == Status.ATTACK):
 			anim_player.play("attack")
