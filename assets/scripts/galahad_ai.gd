@@ -22,8 +22,8 @@ func _ready():
 #	pass
 
 func harden():
-	$Timer.wait_time = 13
-	$ChanceTimer.wait_time = 25
+	$Timer.wait_time = 10
+	$ChanceTimer.wait_time = 18
 
 func force_y(y):
 	forced_y = y
