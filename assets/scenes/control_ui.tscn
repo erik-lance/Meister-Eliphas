@@ -194,8 +194,8 @@ margin_top = 22.0
 margin_right = 168.0
 margin_bottom = 36.0
 theme = ExtResource( 2 )
-max_value = 3000.0
-value = 3000.0
+max_value = 1500.0
+value = 1500.0
 percent_visible = false
 __meta__ = {
 "_edit_use_anchors_": false
@@ -285,8 +285,8 @@ margin_right = 38.0
 margin_bottom = 36.0
 rect_scale = Vector2( -1, 1 )
 theme = ExtResource( 2 )
-max_value = 3000.0
-value = 3000.0
+max_value = 1500.0
+value = 1500.0
 percent_visible = false
 __meta__ = {
 "_edit_use_anchors_": false
@@ -362,14 +362,16 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -150.5
-margin_top = -52.5
+margin_top = -70.5
 margin_right = 150.5
-margin_bottom = 52.5
+margin_bottom = 70.5
 theme = ExtResource( 10 )
 text = "This message will disappear if you move.
 
 Press A or D to move the camera
 Hold shift to move faster
+
+Space / Backspace for camera shortcuts
 
 1 and 2 correspond to your unit slots"
 align = 1
