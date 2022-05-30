@@ -8,6 +8,7 @@ onready var select_label = $Control/SelectNote
 onready var dump = $Control/Dump
 
 onready var start_message = $Control/Start
+onready var income_timer = $Timer
 
 var cur_mode = Mode.IDLE
 var cur_select = null
@@ -73,6 +74,8 @@ func check_valid_spawn():
 	
 	if ((x > -64 && x < 256) && (y > 426 && y < 500)):
 		return true
+	elif (cur_select == 1 && (x > -64 && x < 256) && (y > 426 && y < 516)):
+		return true
 	else: return false
 
 func open_slot_1():
@@ -107,7 +110,7 @@ func load_slot_1():
 	reset_buttons()
 
 func load_slot_2():
-	coins -= 80
+	coins -= 40
 	var imp = load(imp_scene).instance()
 	
 	game_manager.entity_node.add_child(imp)
@@ -133,6 +136,7 @@ func reset_buttons():
 
 func slot_n_select(n):
 	if (cur_select != n):
+		reset_buttons()
 		cur_mode = Mode.SELECTED_UNIT
 		match(n):
 			0: open_slot_1()
@@ -144,8 +148,10 @@ func slot_n_select(n):
 func ease_game():
 	universal_timer = 7
 	coin_increment = 100
-	$Control/HBoxContainer/Slot_1/slot1_timer.wait_time = 7
-	$Control/HBoxContainer/Slot_2/slot2_timer.wait_time = 7
+	$Control/HBoxContainer/Slot_1/slot1_timer.wait_time = universal_timer
+	$Control/HBoxContainer/Slot_2/slot2_timer.wait_time = universal_timer
+	income_timer.wait_time = universal_timer
+	
 
 func _on_Slot_1_pressed(): slot_n_select(0)
 func _on_Slot_2_pressed(): slot_n_select(1)
