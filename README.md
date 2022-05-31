@@ -14,5 +14,7 @@ Goal is destroy the enemy's base first!
 
 A/D move Camera
 (Hold) Shift to move camera x2 speed
+Spacebar to move camera to your own base
+
 
 1 / 2 : Select/Deselect Slot
